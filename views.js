@@ -106,7 +106,7 @@ class View {
         });
       }
 
-      li.append(p, ul, startThrusterFormButton);
+      li.append(p,startThrusterFormButton, ul );
       this.rocketList.appendChild(li);
     });
   }
@@ -151,6 +151,8 @@ class View {
       }
     });
   }
+
+
 }
 
 // [x] Creamos un botón que inicie el constructor ('Start builder')
