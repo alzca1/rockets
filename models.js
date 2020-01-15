@@ -11,6 +11,8 @@ class Model {
       rocketSpeed: 0
     };
     this.rockets.push(rocket);
+    console.log(`Rocket ${rocket.id} was added`);
+    this.onRocketListChanged(this.rockets);
   }
 
   // La idea es que cada vez que incrementemos o reduzcamos potencia, un método se encarge de sumar todas las speed
@@ -25,17 +27,23 @@ class Model {
       if (rocket.id === rocketId) {
         rocket.thrusters.push(thruster);
         rocket.numberOfThrusters++;
+        this.onRocketListChanged(this.rockets);
+        console.log('thruster was added!')
       }
     }
   }
 
   getRockets() {
-    this.rockets.forEach(rocket =>{
-      console.log(`Rocket ${rocket.id} number of thrusters is ${rocket.numberOfThrusters} and the rocket's current speed is ${rocket.rocketSpeed}`)
-      rocket.thrusters.forEach(thruster =>{
-        console.log(`Rocket ${rocket.id}'s thruster ${thruster.thrusterId}'s maxpower of  is ${thruster.maxPower} and its current speed is ${thruster.thrusterSpeed}`)
-      })
-    })
+    this.rockets.forEach(rocket => {
+      console.log(
+        `Rocket ${rocket.id} number of thrusters is ${rocket.numberOfThrusters} and the rocket's current speed is ${rocket.rocketSpeed}`
+      );
+      rocket.thrusters.forEach(thruster => {
+        console.log(
+          `Rocket ${rocket.id}'s thruster ${thruster.thrusterId}'s maxpower of  is ${thruster.maxPower} and its current speed is ${thruster.thrusterSpeed}`
+        );
+      });
+    });
   }
 
   getNewThrusterId(rocketId) {
@@ -47,7 +55,6 @@ class Model {
     });
     return thrusters;
   }
-
 
   //*******   OJO!!!  ****** */ SPEED MODIFIERS
   // sujetos a cambio dado que podemos pasar esto a una única función
@@ -86,6 +93,10 @@ class Model {
         }
       }
     }
+  }
+
+  bindRocketListChanged(callback) {
+    this.onRocketListChanged = callback;
   }
 }
 
