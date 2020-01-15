@@ -35,8 +35,8 @@ class View {
 
     // Rocket List
     this.rocketList = this.createElement("ul", "rocket-list");
-    // de aquí quité this.rocketList
-    this.app.append(this.title, this.startDiv,this.rocketList);
+    
+    this.app.append(this.title, this.startDiv, this.rocketList);
   }
 
   getElement(selector) {
@@ -83,15 +83,25 @@ class View {
       const startThrusterFormButton = this.createElement("button");
       startThrusterFormButton.textContent = "New Thruster";
       this.bindCreateThrusterForm(startThrusterFormButton, li);
-      const ul = this.createElement("ul");
 
+      const ul = this.createElement("ul");
       if (rocket.thrusters) {
         rocket.thrusters.forEach(thruster => {
           const li = this.createElement("li");
           li.id = thruster.thrusterId;
+          const span = this.createElement("span");
           const p = this.createElement("p");
           p.textContent = `Thruster ${thruster.thrusterId} current speed is ${thruster.thrusterSpeed} and its max power is ${thruster.maxPower}`;
-          li.append(p);
+
+          const increaseSpeedBtn = this.createElement("button");
+          increaseSpeedBtn.textContent = "Speed Up Thruster";
+
+          const decreaseSpeedBtn = this.createElement("button");
+          decreaseSpeedBtn.textContent = "Brake Thruster";
+
+          span.append(p, increaseSpeedBtn, decreaseSpeedBtn);
+
+          li.append(span);
           ul.append(li);
         });
       }
@@ -104,9 +114,7 @@ class View {
   bindCreateRocketForm() {
     this.startButton.addEventListener("click", event => {
       event.preventDefault();
-      // aquí está la clave para poner el rocket list an
-      this.app.removeChild(this.startDiv);
-      this.app.appendChild(this.rocketForm);
+      this.app.replaceChild(this.rocketForm, this.startDiv);
     });
   }
 
