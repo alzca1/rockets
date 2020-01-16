@@ -1,5 +1,54 @@
+html {
+    font-family: sans-serif;
+    font-size: 1rem;
+    color: #444;
+  }
+
+  ul{
+      list-style: none; 
+  }
+
+
 .maxSpeed{
     
     color: red;
     font-weight: 800;
 }
+
+form {
+    display: flex;
+    margin-bottom: 2rem;
+  }
+
+button{
+    padding: .3rem .5rem; 
+    font-size: 1rem;
+    border: 2px solid  #ccc;
+    border-radius: 4px; 
+}
+
+button {
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border: 2px solid #007bff;
+    margin: 0 .5rem;
+  }
+
+  button.increaseSpeedBtn{
+      background:mediumseagreen;
+      border: 2px solid mediumseagreen;
+  }
+  button.decreaseSpeedBtn{
+      background:crimson;
+      border: 2px solid crimson;
+  }
+
+  .rocket{
+      background:rgba(216, 233, 255, 0.3);
+      border: 2px solid rgb(216, 233, 255, 0.3);
+      padding: 1rem;
+      margin: 2rem;
+      border-radius: 6px;
+  }
+ 
