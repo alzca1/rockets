@@ -28,7 +28,7 @@ class Model {
         rocket.thrusters.push(thruster);
         rocket.numberOfThrusters++;
         this.onRocketListChanged(this.rockets);
-        console.log('thruster was added!')
+        console.log("thruster was added!");
       }
     }
   }
@@ -63,14 +63,17 @@ class Model {
 
   increaseThrusterSpeed(rocketId, thrusterId) {
     for (const rocket of this.rockets) {
-      if (rocket.id === rocketId) {
+      if (rocket.id == rocketId) {
         for (const thruster of rocket.thrusters) {
-          if (thruster.thrusterId === thrusterId) {
+          if (thruster.thrusterId == thrusterId) {
             if (thruster.thrusterSpeed < thruster.maxPower) {
               thruster.thrusterSpeed += 10;
               rocket.rocketSpeed += 10;
+              this.onRocketListChanged(this.rockets);
             } else {
-              console.log("Max speed reached!Cannot increase");
+              let statusMessage = event.srcElement.parentElement.childNodes[0];
+              statusMessage.classList.add("maxSpeed");
+              statusMessage.textContent = `Thruster ${thruster.thrusterId} current speed is ${thruster.thrusterSpeed}. Reached max speed, cannot increase!!`;
             }
           }
         }
@@ -80,12 +83,13 @@ class Model {
 
   decreaseThrusterSpeed(rocketId, thrusterId) {
     for (const rocket of this.rockets) {
-      if (rocket.id === rocketId) {
+      if (rocket.id == rocketId) {
         for (const thruster of rocket.thrusters) {
-          if (thruster.thrusterId === thrusterId) {
+          if (thruster.thrusterId == thrusterId) {
             if (thruster.thrusterSpeed > 0) {
               thruster.thrusterSpeed -= 10;
               rocket.rocketSpeed -= 10;
+              this.onRocketListChanged(this.rockets);
             } else {
               console.log("Min speed reached!Cannot decrease");
             }

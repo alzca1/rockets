@@ -35,7 +35,7 @@ class View {
 
     // Rocket List
     this.rocketList = this.createElement("ul", "rocket-list");
-    
+
     this.app.append(this.title, this.startDiv, this.rocketList);
   }
 
@@ -53,7 +53,12 @@ class View {
   }
 
   get _getThrusterPower() {
-    return this.thrusterMaxPowerInput.value;
+    if (this.thrusterMaxPowerInput.value % 10 == 0) {
+      return this.thrusterMaxPowerInput.value;
+    }else{
+      alert('Max Power must be divisible by 10')
+      return false; 
+    }
   }
 
   _resetThrusterPower() {
@@ -74,11 +79,11 @@ class View {
     }
 
     rockets.forEach(rocket => {
-      const li = this.createElement("li");
+      const li = this.createElement("li", "rocket");
       li.id = rocket.id;
 
       const p = this.createElement("p");
-      p.textContent = `Rocket ${rocket.id} has ${rocket.numberOfThrusters} thruster/s`;
+      p.textContent = `Rocket ${rocket.id} has ${rocket.numberOfThrusters} thruster/s.The current speed is ${rocket.rocketSpeed}`;
 
       const startThrusterFormButton = this.createElement("button");
       startThrusterFormButton.textContent = "New Thruster";
@@ -93,10 +98,16 @@ class View {
           const p = this.createElement("p");
           p.textContent = `Thruster ${thruster.thrusterId} current speed is ${thruster.thrusterSpeed} and its max power is ${thruster.maxPower}`;
 
-          const increaseSpeedBtn = this.createElement("button");
+          const increaseSpeedBtn = this.createElement(
+            "button",
+            "increaseSpeedBtn"
+          );
           increaseSpeedBtn.textContent = "Speed Up Thruster";
 
-          const decreaseSpeedBtn = this.createElement("button");
+          const decreaseSpeedBtn = this.createElement(
+            "button",
+            "decreaseSpeedBtn"
+          );
           decreaseSpeedBtn.textContent = "Brake Thruster";
 
           span.append(p, increaseSpeedBtn, decreaseSpeedBtn);
@@ -106,7 +117,7 @@ class View {
         });
       }
 
-      li.append(p,startThrusterFormButton, ul );
+      li.append(p, startThrusterFormButton, ul);
       this.rocketList.appendChild(li);
     });
   }
@@ -152,7 +163,29 @@ class View {
     });
   }
 
+  bindIncreaseThrusterSpeed(handler) {
+    this.rocketList.addEventListener("click", event => {
+      if (event.target.className === "increaseSpeedBtn") {
+        const rocketId =
+          event.srcElement.parentElement.parentElement.parentElement
+            .parentElement.id;
+        const thrusterId = event.srcElement.parentElement.parentElement.id;
+        handler(rocketId, thrusterId);
+      }
+    });
+  }
 
+  bindDecreaseThrusterSpeed(handler) {
+    this.rocketList.addEventListener("click", event => {
+      if (event.target.className === "decreaseSpeedBtn") {
+        const rocketId =
+          event.srcElement.parentElement.parentElement.parentElement
+            .parentElement.id;
+        const thrusterId = event.srcElement.parentElement.parentElement.id;
+        handler(rocketId, thrusterId);
+      }
+    });
+  }
 }
 
 // [x] Creamos un botón que inicie el constructor ('Start builder')
