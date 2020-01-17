@@ -61,6 +61,41 @@ class Model {
   // que registre el evento y en función de éste, incremente o
   // reduzca speed. También tener en cuenta la potencia máxima del thruster
 
+  increaseRocketSpeed(rocketId) {
+    for (const rocket of this.rockets) {
+      if (rocket.id == rocketId) {
+        for (const thruster of rocket.thrusters) {
+            if (thruster.thrusterSpeed < thruster.maxPower) {
+              thruster.thrusterSpeed += 10;
+              rocket.rocketSpeed += 10;
+              this.onRocketListChanged(this.rockets);
+            } else {
+              let statusMessage = event.srcElement.parentElement.childNodes[0];
+              statusMessage.classList.add("maxSpeed");
+              statusMessage.textContent = `Rocket's ${rocket.id} max power speed reached. Current speed is ${rocket.rocketSpeed}!!!`;
+            }
+          }
+        }
+      }
+    }
+
+    decreaseRocketSpeed(rocketId) {
+      for (const rocket of this.rockets) {
+        if (rocket.id == rocketId) {
+          for (const thruster of rocket.thrusters) {
+              if (thruster.thrusterSpeed > 0) {
+                thruster.thrusterSpeed -= 10;
+                rocket.rocketSpeed -= 10;
+                this.onRocketListChanged(this.rockets);
+              } else {
+                console.log("Min speed reached!Cannot decrease");
+              }
+            }
+          }
+        }
+      }
+    
+  
   increaseThrusterSpeed(rocketId, thrusterId) {
     for (const rocket of this.rockets) {
       if (rocket.id == rocketId) {

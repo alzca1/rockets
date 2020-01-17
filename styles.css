@@ -35,11 +35,11 @@ button {
     margin: 0 .5rem;
   }
 
-  button.increaseSpeedBtn{
+  button.increaseSpeedBtn, button.increaseRocketSpeedBtn{
       background:mediumseagreen;
       border: 2px solid mediumseagreen;
   }
-  button.decreaseSpeedBtn{
+  button.decreaseSpeedBtn, button.decreaseRocketSpeedBtn{
       background:crimson;
       border: 2px solid crimson;
   }
@@ -50,5 +50,13 @@ button {
       padding: 1rem;
       margin: 2rem;
       border-radius: 6px;
+  }
+
+  .thruster{
+    background: rgba(228, 226, 218, 0.87);
+    border: rgb(186, 224, 238);
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 6px;
   }
  

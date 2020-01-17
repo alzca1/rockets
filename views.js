@@ -87,6 +87,7 @@ class View {
       const li = this.createElement("li", "rocket");
       li.id = rocket.id;
 
+      const div = this.createElement("div");
       const p = this.createElement("p");
       p.textContent = `Rocket ${rocket.id} has ${rocket.numberOfThrusters} thruster/s.The current speed is ${rocket.rocketSpeed}`;
 
@@ -95,13 +96,28 @@ class View {
         "startThrusterFormButton",
         rocket.id
       );
+
+      const increaseRocketSpeedButton = this.createElement(
+        "button",
+        "increaseRocketSpeedBtn",
+        rocket.id
+      );
+      increaseRocketSpeedButton.textContent = "Speed Up Rocket";
+
+      const decreaseRocketSpeedButton = this.createElement(
+        "button",
+        "decreaseRocketSpeedBtn",
+        rocket.id
+      );
+      decreaseRocketSpeedButton.textContent = "Brake Rocket";
+
       startThrusterFormButton.textContent = "New Thruster";
       this.bindCreateThrusterForm(startThrusterFormButton, li);
 
       const ul = this.createElement("ul");
       if (rocket.thrusters) {
         rocket.thrusters.forEach(thruster => {
-          const li = this.createElement("li");
+          const li = this.createElement("li", "thruster");
           li.id = thruster.thrusterId;
           const span = this.createElement("span");
           const p = this.createElement("p");
@@ -130,7 +146,13 @@ class View {
         });
       }
 
-      li.append(p, startThrusterFormButton, ul);
+      li.append(
+        p,
+        startThrusterFormButton,
+        increaseRocketSpeedButton,
+        decreaseRocketSpeedButton,
+        ul
+      );
       this.rocketList.appendChild(li);
     });
   }
@@ -163,21 +185,6 @@ class View {
     });
   }
 
-  // bindAddThrusterForm(handler) {
-  //   this.thrusterForm.addEventListener("submit", event => {
-  //     event.preventDefault();
-
-  //     const rocketId = event.srcElement.parentNode.id;
-
-  //     if (this._getThrusterPower) {
-  //       handler(rocketId, this._getThrusterPower);
-  //       this._resetThrusterPower();
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  // }
-
   bindAddThrusterForm(handler) {
     this.thrusterForm.addEventListener("submit", event => {
       event.preventDefault();
@@ -189,6 +196,23 @@ class View {
         this._resetThrusterPower();
       } else {
         return false;
+      }
+    });
+  }
+
+  bindIncreaseRocketSpeed(handler) {
+    this.rocketList.addEventListener("click", event => {
+      if (event.target.className === "increaseRocketSpeedBtn") {
+        const rocketId = event.target.dataset.rocketId;
+        handler(rocketId);
+      }
+    });
+  }
+  bindDecreaseRocketSpeed(handler) {
+    this.rocketList.addEventListener("click", event => {
+      if (event.target.className === "decreaseRocketSpeedBtn") {
+        const rocketId = event.target.dataset.rocketId;
+        handler(rocketId);
       }
     });
   }
