@@ -65,8 +65,13 @@ class View {
     this.thrusterMaxPowerInput.value = "";
   }
 
-  createElement(tag, className) {
+  createElement(tag, className, ...args) {
     const element = document.createElement(tag);
+    let objectArgs = arguments;
+    if(tag === 'button'){
+    element.dataset.rocketId = objectArgs[2]
+    element.dataset.thrusterId = objectArgs[3] 
+    }
     if (className) {
       element.classList.add(className);
     }
@@ -85,7 +90,7 @@ class View {
       const p = this.createElement("p");
       p.textContent = `Rocket ${rocket.id} has ${rocket.numberOfThrusters} thruster/s.The current speed is ${rocket.rocketSpeed}`;
 
-      const startThrusterFormButton = this.createElement("button");
+      const startThrusterFormButton = this.createElement("button", "startThrusterFormButton",rocket.id);
       startThrusterFormButton.textContent = "New Thruster";
       this.bindCreateThrusterForm(startThrusterFormButton, li);
 
@@ -100,13 +105,17 @@ class View {
 
           const increaseSpeedBtn = this.createElement(
             "button",
-            "increaseSpeedBtn"
+            "increaseSpeedBtn",
+            rocket.id,
+            thruster.thrusterId
           );
           increaseSpeedBtn.textContent = "Speed Up Thruster";
 
           const decreaseSpeedBtn = this.createElement(
             "button",
-            "decreaseSpeedBtn"
+            "decreaseSpeedBtn",
+            rocket.id,
+            thruster.thrusterId
           );
           decreaseSpeedBtn.textContent = "Brake Thruster";
 
@@ -178,6 +187,7 @@ class View {
   bindDecreaseThrusterSpeed(handler) {
     this.rocketList.addEventListener("click", event => {
       if (event.target.className === "decreaseSpeedBtn") {
+        console.log(event.target)
         const rocketId =
           event.srcElement.parentElement.parentElement.parentElement
             .parentElement.id;
