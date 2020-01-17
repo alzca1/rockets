@@ -26,7 +26,7 @@ class View {
     this.thrusterMaxPowerInput.type = "number";
     this.thrusterMaxPowerInput.placeholder = "Add Thruster Max Power";
     this.thrusterMaxPowerInput.name = "maxPower";
-    this.addThrusterButton = this.createElement("button");
+    this.addThrusterButton = this.createElement("button", "addThrusterButton");
     this.addThrusterButton.textContent = "Add Thruster to Rocket";
     this.thrusterForm.append(
       this.thrusterMaxPowerInput,
@@ -55,9 +55,9 @@ class View {
   get _getThrusterPower() {
     if (this.thrusterMaxPowerInput.value % 10 == 0) {
       return this.thrusterMaxPowerInput.value;
-    }else{
-      alert('Max Power must be divisible by 10')
-      return false; 
+    } else {
+      alert("Max Power must be divisible by 10");
+      return false;
     }
   }
 
@@ -68,9 +68,9 @@ class View {
   createElement(tag, className, ...args) {
     const element = document.createElement(tag);
     let objectArgs = arguments;
-    if(tag === 'button'){
-    element.dataset.rocketId = objectArgs[2]
-    element.dataset.thrusterId = objectArgs[3] 
+    if (tag === "button") {
+      element.dataset.rocketId = objectArgs[2];
+      element.dataset.thrusterId = objectArgs[3];
     }
     if (className) {
       element.classList.add(className);
@@ -90,7 +90,11 @@ class View {
       const p = this.createElement("p");
       p.textContent = `Rocket ${rocket.id} has ${rocket.numberOfThrusters} thruster/s.The current speed is ${rocket.rocketSpeed}`;
 
-      const startThrusterFormButton = this.createElement("button", "startThrusterFormButton",rocket.id);
+      const startThrusterFormButton = this.createElement(
+        "button",
+        "startThrusterFormButton",
+        rocket.id
+      );
       startThrusterFormButton.textContent = "New Thruster";
       this.bindCreateThrusterForm(startThrusterFormButton, li);
 
@@ -153,15 +157,32 @@ class View {
 
   bindCreateThrusterForm(button, element) {
     button.addEventListener("click", event => {
+      const rocketId = button.dataset.rocketId;
+      this.thrusterForm.dataset.rocketId = rocketId;
       element.insertBefore(this.thrusterForm, button);
     });
   }
+
+  // bindAddThrusterForm(handler) {
+  //   this.thrusterForm.addEventListener("submit", event => {
+  //     event.preventDefault();
+
+  //     const rocketId = event.srcElement.parentNode.id;
+
+  //     if (this._getThrusterPower) {
+  //       handler(rocketId, this._getThrusterPower);
+  //       this._resetThrusterPower();
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  // }
 
   bindAddThrusterForm(handler) {
     this.thrusterForm.addEventListener("submit", event => {
       event.preventDefault();
 
-      const rocketId = event.srcElement.parentNode.id;
+      const rocketId = event.target.dataset.rocketId;
 
       if (this._getThrusterPower) {
         handler(rocketId, this._getThrusterPower);
@@ -175,10 +196,8 @@ class View {
   bindIncreaseThrusterSpeed(handler) {
     this.rocketList.addEventListener("click", event => {
       if (event.target.className === "increaseSpeedBtn") {
-        const rocketId =
-          event.srcElement.parentElement.parentElement.parentElement
-            .parentElement.id;
-        const thrusterId = event.srcElement.parentElement.parentElement.id;
+        const rocketId = event.target.dataset.rocketId;
+        const thrusterId = event.target.dataset.thrusterId;
         handler(rocketId, thrusterId);
       }
     });
@@ -187,11 +206,8 @@ class View {
   bindDecreaseThrusterSpeed(handler) {
     this.rocketList.addEventListener("click", event => {
       if (event.target.className === "decreaseSpeedBtn") {
-        console.log(event.target)
-        const rocketId =
-          event.srcElement.parentElement.parentElement.parentElement
-            .parentElement.id;
-        const thrusterId = event.srcElement.parentElement.parentElement.id;
+        const rocketId = event.target.dataset.rocketId;
+        const thrusterId = event.target.dataset.thrusterId;
         handler(rocketId, thrusterId);
       }
     });
