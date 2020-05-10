@@ -5,6 +5,7 @@ class View {
         this.title.textContent = "Rocket Builder";
         // Startup Button
         this.startDiv = this.createElement("div");
+        this.startDiv.id = "startDiv";
         this.startButton = this.createElement("button");
         this.startButton.textContent = "Start Rocket Builder";
         this.startDiv.append(this.startButton);
