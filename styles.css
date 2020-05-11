@@ -51,8 +51,8 @@ html {
     flex-direction: column;
     justify-content: space-between;
     width: 220px;
-    height: 70px;
-    margin: 0 auto; 
+    height: 80px;
+    margin: 0 auto;
   }
   
   li input {
@@ -61,7 +61,7 @@ html {
   
   small {
     font-size: 0.8rem;
-    margin: 0 auto;
+    margin: 4px auto;
     margin-bottom: 5px;
     color: red;
   }
